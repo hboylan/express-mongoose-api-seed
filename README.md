@@ -5,7 +5,7 @@
 
 ## Description
 
-<p>While working with [NodeJS](http://nodejs.org/) I&apos;ve found that there&apos;s no "right" way to structure your application directory, but there are ways to keep it orgized better. Every project is different, but I&apos;ve adopted this structure for use hosting an [ExpressJS](http://expressjs.com/api.html) API with [MongooseJS](http://mongoosejs.com/). It provides the boilerplate setup and, more importantly, an organized application directory structure from which you can begin your project.</p>
+While working with [NodeJS](http://nodejs.org/) I&apos;ve found that there&apos;s no "right" way to structure your application directory, but there are ways to keep it orgized better. Every project is different, but I&apos;ve adopted this structure for use hosting an [ExpressJS](http://expressjs.com/api.html) API with [MongooseJS](http://mongoosejs.com/). It provides the boilerplate setup and, more importantly, an organized application directory structure from which you can begin your project.
 
 ## File structure
 
