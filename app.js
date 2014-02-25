@@ -21,7 +21,7 @@ require('./lib/database')(config, function (err, mongoose) {
   new db.User(config.admin).save(function(err, admin){
     
     // Setup API routes
-    require('./lib/routes')(api, chat, db)
+    require('./lib/routes')(api, db)
     
     // Create API server
     require('http').createServer(api).listen(api.get('port'), function(){

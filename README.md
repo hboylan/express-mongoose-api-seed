@@ -9,32 +9,32 @@ This project provides an organized application directory structure from which yo
 
 ## File structure
 
-* **/config.js** Configuration info for port, DB, session, etc.
+* **/app.js:** Load and serve API resources
 
-* **/app.js** Load and serve API resources
+* **/controllers:** Contains API endpoint controllers
 
-* **/controllers** Contains API endpoint controllers
+* **/lib:** Contains NodeJS helpers
+  * **/lib/config.json:** Configuration info for port, DB, session, etc.
 
-* **/lib** Contains NodeJS helpers
-  * **/lib/settings.js** API settings
+  * **/lib/settings.js:** API settings
 
-  * **/lib/database.js** Mongoose connection helper
+  * **/lib/database.js:** Mongoose connection helper
 
-  * **/lib/routes.js** API endpoints
+  * **/lib/routes.js:** API endpoints
 
-  * **/lib/utils.js** API helper functions
+  * **/lib/utils.js:** API helper functions
 
-* **/models** Contains Mongoose models
-  * **/models/index.js** Declare models to use
+* **/models:** Contains Mongoose models
+  * **/models/index.js:** Declare models to use
 
-  * **/models/user.js** User model schema declaration
+  * **/models/user.js:** User model schema declaration
 
-* **/public** ExpressJS will statically serve this directory, *served from memory*
+* **/public:** ExpressJS will statically serve this directory, *served from memory*
 
-* **/tests** Vows test files
-  * **/tests/data.json** Test data
+* **/tests:** Vows test files
+  * **/tests/data.json:** Test data
 
-  * **/tests/user-test.js** Create, login, logout, remove user
+  * **/tests/user-test.js:** Create, login, logout, remove user
 
 ###### *Remove this for your project*
 - - - 

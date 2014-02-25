@@ -7,7 +7,8 @@ function UserAPI(db, utils)
       return utils.error(res, 403, 'Requires first and last name')
     
     // Persist user
-    new db.User(req.body).save(function(err, success){
+    var user = new db.User(req.body)
+    user.save(function(err, success){
       if(err) return utils.error(res, 403, 'Username already in use')
       if(!success) return utils.error(res, 403, 'Invalid parameters passed')
       req.session.user = user
@@ -34,10 +35,6 @@ function UserAPI(db, utils)
         res.json(user)
       })
   	})
-  }
-  
-  this.logout = function(req, res){
-    res.send()
   }
   
   this.show = function(req, res){    

@@ -1,7 +1,7 @@
 {
-  "port":9000,
+  "port":8000,
   "db":{
-    "url": "mongodb://localhost:27017/nomadic-fitness",
+    "url": "mongodb://localhost:27017/express-mongoose-api-seed",
     "sess_secret": "secret_string_for_sessions",
     "sess_interval": 3600
   },
