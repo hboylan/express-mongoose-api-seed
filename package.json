@@ -2,7 +2,6 @@
   "name": "express-mongoose-api-seed",
   "version": "0.0.1",
   "private": false,
-  "readme": "README.md",
   "scripts": {
     "start": "node app",
     "test": "vows tests/*-test.js"
@@ -17,6 +16,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:hboylan/express-mongoose-api-seed.git"
+    "url": "git@github.com:hboylan/express-mongoose-api-seed.git"
   }
 }
