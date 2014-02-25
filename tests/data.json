@@ -1,0 +1,13 @@
+{
+  "user": {
+    "username": "hjboylan",
+    "password": "password1",
+    "name": "Hugh Boylan"
+  },
+  "admin": {
+    "username": "thinkerton",
+    "password": "boylan55",
+    "name": "John Barnack",
+    "role": "admin"
+  }
+}
