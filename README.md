@@ -1,5 +1,12 @@
 # express-mongoose-api-seed
 
+- - - 
+###### *Remove this for your project*
+
+## Description
+
+<p>While working with [NodeJS](http://nodejs.org/) I&apos;ve found that there&apos;s no "right" way to structure your application directory, but there are ways to keep it orgized better. Every project is different, but I&apos;ve adopted this structure for use hosting an [ExpressJS](http://expressjs.com/api.html) API with [MongooseJS](http://mongoosejs.com/). It provides the boilerplate setup and, more importantly, an organized application directory structure from which you can begin your project.</p>
+
 ## File structure
 
 * **/config.js** Configuration info for port, DB, session, etc.
@@ -29,8 +36,11 @@
 
   * **/tests/user-test.js** Create, login, logout, remove user
 
+###### *Remove this for your project*
+- - - 
+
 ## Routes
-## *Notes*
+>### *Notes*
 >* *@session_role*
 >* @body   = POST param 
 >* @param = URL param /user/:param 
@@ -50,10 +60,10 @@
 - - -
 
 <a name="user-routes">
-# User Routes
+### User Routes
 
 <a name="create-user">
-## Create User
+#### Create User
 Create new user
 
 - @body email 
@@ -72,7 +82,7 @@ Create new user
 
 
 <a name="login-user">
-## Login User
+#### Login User
 Create user session
 
 - @body email  
@@ -82,17 +92,17 @@ Same as [Show User](#show-user)
 
 
 <a name="logout-user">
-## Logout User
+#### Logout User
 
 Destroy user session 
 
 <a name="auth-user">
-## Auth User
+#### Auth User
 Check if session is valid  
 
 
 <a name="list-users">
-## List Users
+#### List Users
 List all user with role
 
 - @param role (user|admin)
@@ -109,7 +119,7 @@ List all user with role
 
 
 <a name="show-user">
-## Show User
+#### Show User
 Show user info
 
 - @param uid
@@ -124,7 +134,7 @@ Show user info
 
 
 <a name="delete-user">
-## Delete User
+#### Delete User
 Remove user
 
 - @body password 
