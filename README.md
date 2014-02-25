@@ -37,8 +37,8 @@
 >* (options)
 
 ### [User](#user-routes)
- |                       |  
--------------  | ------------------------- | ----------------------------------------------------------------------------------------------------------------
+ Method        | Endpoint                  | Action 
+-------------  | ------------------------- | -----------------------------------------
 `POST`         | /user                     | [Create User](#create-user)
 `POST`         | /user/login               | [Login User](#login-user)
 `POST`         | /user/logout              | [Logout User](#logout-user)
