@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+  <script>
+    var room = '5327ab7a8764814eaa000001'
+    var admin = '5327ab7b8764814eaa000002'
+    var socket;
+    var base64;
+
+    function connect(){
+    	socket = io.connect('http://localhost:9000')
+
+    	// on connection to server, ask for user's name with an anonymous callback
+    	socket.on('connect', function(){
+    		// call the server-side function 'adduser' and send one parameter (value of prompt)
+    		socket.emit('joinroom', {room:room, user:{email:'thinkerton5@gmail.com', _id:admin, role:'admin'}});
+    	})
+
+    	// listener, whenever the server emits 'updatechat', this updates the chat body
+    	socket.on('message', function (msg) {
+        renderMessage(msg)
+    	})
+
+    	// listener, whenever the server emits 'updateclients', this updates the room the client is in
+    	socket.on('joinedroom', function(client) {
+        console.log('JOINED:', client)
+    		$('#client'+client._id).css('color', 'red')
+    	})
+    
+      socket.on('leftroom', function(client){
+        console.log('LEFT:', client)
+        $('#client'+client._id).css('color', 'blue')
+      })
+    }
+    
+    function renderMessage(msg){
+      var isAdmin = msg.sender == admin, view;
+      if(isAdmin && msg.media) // admin w/ media
+        view = '<b>'+msg.sender + ':</b> ' + msg.text + '<br><img src="' + msg.media + '" style="width:100%"/><br>';
+      else if(isAdmin) // admin
+        view = '<b>'+msg.sender + ':</b> ' + msg.text + '<br>';
+      else if(msg.media) // client w/ media
+        view = msg.sender + ': ' + msg.text + '<br><img src="' + msg.media + '" style="width:100%"/><br>';
+      else
+        view = msg.sender + ': ' + msg.text + '<br>';
+      $('#messages').append(view)
+    }
+
+    function updateClients(){
+      $('#clients').empty()
+      $.get('/trainer/'+admin+'/clients', function(clients){
+    		$.each(clients, function(i, c) {
+    			if(c._id != admin){
+    				$('#clients').append('<div><a href="#" id="client'+c._id+'" onclick="switchClient(\''+c._id+'\')">' + c.email + '</a></div>');
+    			}
+    		});
+      })
+    }
+  
+    function updateMessages(room){
+      $('#messages').empty()
+      $.get('/user/'+room+'/messages', function(messages){
+        $.each(messages, function(key, msg){
+          renderMessage(msg)
+        })
+      })
+    }
+
+  	function switchClient(room){
+      // socket.emit('switchClient', room);
+      updateMessages(room)
+  	}
+    
+  	// on load of page
+  	$(function(){
+      var media = $('#media')
+      
+  		// when the client clicks SEND
+  		$('#datasend').click( function() {
+  			var message = $('#data').val();
+  			$('#data').val('');
+  			// tell server to execute 'sendchat' and send along one parameter
+  			socket.emit('message', { text:message, timestamp:new Date(), media:base64 });
+        // reset media field
+        base64 = undefined
+        media.replaceWith( media = media.clone( true ) )
+  		});
+
+  		// when the client hits ENTER on their keyboard
+  		$('#data').keypress(function(e) {
+  			if(e.which == 13) {
+  				$(this).blur();
+  				$('#datasend').focus().click();
+  			}
+  		});
+      
+      media.change(function(e){
+        var reader = new FileReader()
+        // finished reading
+        reader.onload = function(evt){
+          base64 = evt.target.result
+        }
+        // read first file
+        reader.readAsDataURL(e.originalEvent.target.files[0])
+      })
+    
+      updateClients()
+      connect()
+  	});
+
+  </script>
+</head>
+<body>
+  <div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;">
+  	<b>CLIENTS</b>
+  	<div id="clients"></div>
+  </div>
+  <div style="float:left;width:400px;height:30px;padding:10px;">
+  	<input id="data" style="width:200px;" />
+  	<input type="button" id="datasend" value="send" />
+    <input type="file" id="media" accept="image/png" /><br>
+    <div id="messages" style="overflow:scroll-y;"></div>
+  </div>
+</body>
+</html>

@@ -1,40 +1,12 @@
 # express-mongoose-api-seed
 
+
 - - - 
 ###### *Remove this for your project*
 
 ## Description
 
 This project provides an organized application directory structure from which you can begin your [NodeJS](http://nodejs.org/) project. Use it to host an [ExpressJS](http://expressjs.com/api.html) API using [MongooseJS](http://mongoosejs.com/).
-
-## File structure
-
-* **/app.js:** Load and serve API resources
-
-* **/controllers:** Contains API endpoint controllers
-
-* **/lib:** Contains NodeJS helpers
-  * **/lib/config.json:** Configuration info for port, DB, session, etc.
-
-  * **/lib/settings.js:** API settings
-
-  * **/lib/database.js:** Mongoose connection helper
-
-  * **/lib/routes.js:** API endpoints
-
-  * **/lib/utils.js:** API helper functions
-
-* **/models:** Contains Mongoose models
-  * **/models/index.js:** Declare models to use
-
-  * **/models/user.js:** User model schema declaration
-
-* **/public:** ExpressJS will statically serve this directory, *served from memory*
-
-* **/tests:** Vows test files
-  * **/tests/data.json:** Test data
-
-  * **/tests/user-test.js:** Create, login, logout, remove user
 
 ###### *Remove this for your project*
 - - - 
@@ -50,12 +22,13 @@ This project provides an organized application directory structure from which yo
  Method        | Endpoint                  | Action 
 -------------  | ------------------------- | -----------------------------------------
 `POST`         | /user                     | [Create User](#create-user)
-`POST`         | /user/login               | [Login User](#login-user)
+`POST`         | /:role/login              | [Login User](#login-user)
 `POST`         | /user/logout              | [Logout User](#logout-user)
+`PUT`          | /user/password            | [Update Password](#update-password)
 `GET`          | /user/auth                | [Auth User](#auth-user)
-`GET`          | /user/:role               | [List Users](#list-users)
+`GET`          | /:role\s                  | [List Users](#list-users)
 `GET`          | /user/:uid                | [Show User](#show-user)
-`DELETE`       | /user/:uid                | [Delete User](#delete-user)
+`DELETE`       | /user                     | [Delete User](#delete-user)
 
 - - -
 
@@ -68,17 +41,8 @@ Create new user
 
 - @body email 
 - @body password (8 - 20 chars, 1+ digit) 
-- @body first 
-- @body last 
+- @body name
 - *@body role (user|admin)*
-```json
-{
-    "_id": "5307a99ed5539300005a665d",
-    "username": "hjboylan",
-    "name": "Hugh Boylan",
-    "role": "user"
-}
-```
 
 
 <a name="login-user">
@@ -96,6 +60,11 @@ Same as [Show User](#show-user)
 
 Destroy user session 
 
+<a name="update-password">
+#### Update Password
+
+Update user password
+
 <a name="auth-user">
 #### Auth User
 Check if session is valid  
@@ -106,16 +75,6 @@ Check if session is valid
 List all user with role
 
 - @param role (user|admin)
-```json
-[
-    {
-        "_id": "5307a99ed5539300005a676e",
-        "username": "thinkerton",
-        "name": "John Barnack",
-        "role": "admin"
-    }
-]
-```
 
 
 <a name="show-user">
@@ -123,14 +82,6 @@ List all user with role
 Show user info
 
 - @param uid
-```json
-{
-    "_id": "5307a99ed5539300005a665d",
-    "username": "hjboylan",
-    "name": "Hugh Boylan",
-    "role": "user"
-}
-```
 
 
 <a name="delete-user">
@@ -139,3 +90,73 @@ Remove user
 
 - @body password 
 
+
+#### Test Server
+
+```
+Mongoose connection opened: mongodb://localhost/db-development
+Nomadic Fitness API running at http://192.168.1.106:8000
+POST /user 200 207ms - 118b
+POST /client/login 200 94ms - 118b
+GET /user/auth 200 5ms
+PUT /user/password 200 6ms - 118b
+DELETE /user 200 3ms - 33b
+```
+
+####
+```json
+Testing http://localhost:8000
+
+POST /user
+{
+  "email": "bluehugh2@gmail.com",
+  "password": "password1",
+  "name": "Hugh Boylan"
+}
+RESPONSE: [200]
+{
+  "email": "bluehugh2@gmail.com",
+  "name": "Hugh Boylan",
+  "_id": "532bc0a42a185f2438000002",
+  "role": "client"
+}
+
+POST /client/login
+{
+  "email": "bluehugh2@gmail.com",
+  "password": "password1"
+}
+RESPONSE: [200]
+{
+  "email": "bluehugh2@gmail.com",
+  "name": "Hugh Boylan",
+  "_id": "532bc0a42a185f2438000002",
+  "role": "client"
+}
+
+GET /user/auth
+{}
+RESPONSE: [200]
+null
+
+PUT /user/password
+{
+  "password": "password2"
+}
+RESPONSE: [200]
+{
+  "_id": "532bc0a42a185f2438000002",
+  "email": "bluehugh2@gmail.com",
+  "name": "Hugh Boylan",
+  "role": "client"
+}
+
+DELETE /user
+{
+  "password": "password2"
+}
+RESPONSE: [200]
+{
+  "error": "Invalid password"
+}
+```

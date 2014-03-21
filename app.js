@@ -1,31 +1,47 @@
-var express    = require('express')
-  , config     = require('./config.json')
-  , api        = express()
+var config   = require('./config')
+  , express  = require('express')
+  , mongoose = require('mongoose')
+  , fs       = require('fs')
+  , db       = {}
 
-// Config API settings
-require('./lib/settings')(config, api, express)
+// connect mongoose
+mongoose.connect(config.db, { server: { keepAlive: 1, auto_reconnect: true } })
+var conn = mongoose.connection
 
-// Setup mongo database
-require('./lib/database')(config, function (err, mongoose) {
+// mongoose connection 'error'
+conn.on('error', function () {
+  console.log('\nMongoose failed to connect:', config.db)
+  mongoose.disconnect()
+})
 
-	// Connection err
-	if (err) {
-		console.log('Mongo connection error:', err);
-		process.exit(1);
-	}
-
-  // Build models
-  var db = require('./models')(mongoose, config);
+// mongoose connection 'open'
+conn.on('open', function () {
+  console.log('\nMongoose connection opened:', config.db)
   
-  // Create admin
-  new db.User(config.admin).save(function(err, admin){
-    
-    // Setup API routes
-    require('./lib/routes')(api, db)
-    
-    // Create API server
-    require('http').createServer(api).listen(api.get('port'), function(){
-      console.log("Express/Mongoose API running at localhost:" + api.get('port'))
-    })
+  // config mongoose models
+  var modelsPath = __dirname + '/app/models'
+  fs.readdirSync(modelsPath).forEach(function (file) {
+    if (file.indexOf('.js') >= 0) 
+      db[file.replace('.js', '')] = require(modelsPath + '/' + file)(mongoose, config)
+  })
+  
+  // config Nomadic Fitness affiliate and admin
+  require('./config/admin')(config, db)
+
+  // create app
+  var app   = express()
+    , http  = require('http').createServer(app)
+
+  // config app
+  require('./config/express')(app, config)
+  require('./config/routes')(app, http, db)
+  
+  app.get('/', function (req, res) {
+    res.render('index')
+  })
+
+  // serve app
+  http.listen(config.port, function () {
+    console.log("Nomadic Fitness API running at http://" + config.host + ":" + config.port)
   })
 })

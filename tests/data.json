@@ -1,13 +1,13 @@
 {
   "user": {
-    "username": "hjboylan",
+    "email": "bluehugh2@gmail.com",
     "password": "password1",
     "name": "Hugh Boylan"
   },
   "admin": {
-    "username": "thinkerton",
-    "password": "boylan55",
-    "name": "John Barnack",
-    "role": "admin"
+    "role": "admin",
+    "email": "thinkerton5@gmail.com",
+    "password": "password1",
+    "name": "John Barnack"
   }
 }

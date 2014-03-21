@@ -1,21 +1,31 @@
 {
-  "name": "express-mongoose-api-seed",
-  "version": "0.1.1",
-  "private": false,
+  "name": "nomadicfitness-api",
+  "version": "0.0.1",
+  "private": true,
+  "readme": "README.md",
   "scripts": {
-    "start": "node app",
-    "test": "vows tests/*-test.js"
+    "start": "clear;node app.js",
+    "test": "clear;node tests/main.js"
   },
   "dependencies": {
     "express": "~3.4.8",
-    "mongoose": "~3.8.4",
+    "mongoose": "~3.6.14",
     "bcrypt": "~0.7.7",
     "connect-mongo": "~0.4.0",
-    "vows": "~0.7.0",
-    "api-easy": "~0.3.8"
+    "ejs": "~0.8.5",
+    "teqlabs-testify": "~0.2.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-develop": "~0.2.2",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-compass": "~0.6.0",
+    "request": "~2.33.0",
+    "time-grunt": "~0.1.1",
+    "load-grunt-tasks": "~0.2.0"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:hboylan/express-mongoose-api-seed.git"
+    "url": "git@bitbucket.org:hboylan/nomadicfitness-api.git"
   }
 }
